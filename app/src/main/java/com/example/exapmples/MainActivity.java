@@ -93,10 +93,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     rb.setChecked(true);
                     Toast.makeText(this,"选中第"+position+"项",Toast.LENGTH_SHORT).show();
                 }
-
             }
             else{
                 clickposition1 = position;
+                //这个相当于listview中checkbox的单选，还比较方便
                 rb.setChecked(true);
                 Toast.makeText(this,"选中第"+position+"项",Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < parent.getChildCount(); i++) {
@@ -118,7 +118,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
     private void click2(AdapterView<?> parent, View view, int position){
         RadioButton rb = (RadioButton) view.findViewById(R.id.rd);
-        if (rb != null) { //类似ExpandableListView的组件，加入一些动画，让它用起来更漂亮
+        if (rb != null) {
             rb.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.enlarge_out));
             if (clickposition2 == position){
                 if (rb.isChecked()){
@@ -225,6 +225,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
         listView.setVisibility(View.VISIBLE);
         listView.getLayoutParams().height = 0;
         Animation a = new Animation() {
+            //这个方法中根据设置动画的时长逐步绘制listview，然后调用requestLayout()方法，再去调用
+            //listview的measure方法重新绘制view。
             @Override
             protected void applyTransformation(float interpolatedTime,
                                                Transformation t) {
@@ -242,6 +244,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         // 1dp/ms
         a.setDuration(500);
         listView.startAnimation(a);
+        //这个动画设置图片的旋转，setFillAfter表示动画执行完毕后停留在最后的位置
         Animation anim= AnimationUtils.loadAnimation(this,R.anim.rotate);
         anim.setFillAfter(true);
         img.startAnimation(anim);
